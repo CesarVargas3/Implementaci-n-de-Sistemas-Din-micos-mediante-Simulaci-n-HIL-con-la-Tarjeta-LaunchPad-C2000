@@ -1,2 +1,88 @@
-# Implementaci-n-de-Sistemas-Din-micos-mediante-Simulaci-n-HIL-con-la-Tarjeta-LaunchPad-C2000
-Plataforma educativa de simulación HIL en tiempo real para sistemas dinámicos (Motores DC y Presión) utilizando la tarjeta TI LaunchPad C2000 y MATLAB/Simulink. Trabajo de Grado - Ingeniería Electrónica USCO.
+# ⚙️ Plataforma de Simulación HIL para Sistemas Dinámicos con LaunchPad C2000
+
+Este repositorio contiene el código fuente, modelos de simulación y scripts de configuración desarrollados para el trabajo de grado titulado:
+
+_"Implementación de Sistemas Dinámicos mediante Simulación HIL con la Tarjeta LaunchPad C2000: Un Enfoque para la Educación en Ingeniería"_
+
+El proyecto presenta una plataforma educativa de bajo costo para realizar simulación Hardware-in-the-Loop (HIL) en tiempo real, utilizando la arquitectura de doble núcleo del microcontrolador TMS320F28379D de Texas Instruments.
+
+## 🚀 Características del Proyecto
+
+- **Simulación HIL en Tiempo Real:** Ejecución paralela de modelos matemáticos (Planta) y algoritmos de control (PID/PI) en núcleos independientes (CPU1 y CPU2).
+- **Diseño Basado en Modelos (MBD):** Integración completa con MATLAB/Simulink y generación automática de código.
+- **Casos de Estudio Implementados:**
+  - 📍 **Posición Motor DC:** Lazo abierto y Lazo cerrado (PID).
+  - 🏎️ **Velocidad Motor DC:** Control PID ante perturbaciones.
+  - 🛢️ **Sistema de Presión:** Control de transferencia de crudo (PI) basado en analogía hidráulico-eléctrica.
+- **Validación Experimental:** Comparación de resultados teóricos vs. señales reales adquiridas vía osciloscopio.
+
+## 📂 Estructura del Repositorio
+
+El repositorio está organizado de la siguiente manera según los casos de estudio:
+
+* `📁 Scripts_Configuracion`: Contiene los archivos `.mlx` (Live Scripts de MATLAB) necesarios para cargar los parámetros físicos y de control al *Workspace* antes de la simulación.
+    * `Position.mlx`: Parámetros para el control de posición.
+    * `Velocity.mlx`: Parámetros para el control de velocidad.
+    * `Configuracion_del_modelo_de_presion.mlx`: Parámetros para el sistema de crudo.
+* `📁 Modelos_Simulink`: Contiene los archivos `.slx` para cada núcleo (CPU1_Control y CPU2_Planta).
+* `📁 Docs`: Documentación adicional o guía de laboratorio.
+
+## 🛠️ Requisitos de Hardware y Software
+
+### Software
+* MATLAB R202x (con Simulink).
+* **Toolbox requeridos:**
+    * Embedded Coder.
+    * C2000 Microcontroller Blockset.
+    * MATLAB Coder.
+
+### Hardware
+* Tarjeta de desarrollo **TI LaunchPad LAUNCHXL-F28379D**.
+* Cables jumper (para cerrar el lazo físico).
+* Osciloscopio (opcional, para visualización externa).
+
+## 🔌 Configuración de Conexiones Físicas (Loopback)
+
+Para que el sistema HIL funcione, se debe cerrar el lazo de control físicamente en la tarjeta conectando los pines de los conversores DAC y ADC:
+
+| Señal | Origen (Salida) | Destino (Entrada) | Descripción |
+| :--- | :--- | :--- | :--- |
+| **Control / SetPoint** | DAC-A (**Pin 30**) | ADC-A (**Pin 25**) | Envío de señal de control o referencia al modelo de la planta (CPU2). |
+| **Realimentación** | DAC-B (**Pin 70**) | ADC-B (**Pin 24**) | Retorno de la variable simulada (posición/velocidad/presión) al controlador (CPU1). |
+
+## 🧭 Flujo de Ejecución Recomendado
+
+Para replicar los experimentos, sigue estos pasos:
+
+1.  **Carga de Parámetros:**
+    Abre y ejecuta el script correspondiente en MATLAB (por ejemplo, `Position.mlx`). Esto cargará en el *Workspace* las variables `Kp`, `Ki`, `Kd`, `num`, `den`, y los tiempos de muestreo.
+
+2.  **Configuración de Modelos:**
+    Abre los archivos de Simulink correspondientes al caso de estudio (ej. `Caso2_Posicion_CPU1.slx` y `Caso2_Posicion_CPU2.slx`).
+
+3.  **Compilación y Carga:**
+    * Asegúrate de que la tarjeta esté conectada vía USB.
+    * Desde Simulink, compila y carga el código primero en la **CPU2 (Planta)**.
+    * Luego, compila y carga el código en la **CPU1 (Control)**.
+
+4.  **Visualización:**
+    * Utiliza las herramientas de *External Mode* de Simulink para ver las señales en tiempo real.
+    * Alternativamente, conecta un osciloscopio a los pines **DAC (30 y 70)** para ver la respuesta física del sistema.
+
+## 🧠 Tecnologías Utilizadas
+
+* **MATLAB & Simulink:** Modelado matemático y diseño de controladores.
+* **Texas Instruments C2000:** Arquitectura de microcontroladores para tiempo real.
+* **Embedded Coder:** Generación de código C/C++ optimizado.
+
+## 📝 Autores
+
+* **Laura Sofia Polania Mendez** - *Ingeniería Electrónica*
+* **Cesar Diego Vargas Motta** - *Ingeniería Electrónica*
+
+**Director:** Dr. Fernand Diaz Franco
+*Universidad Surcolombiana - Neiva, Colombia*
+
+## 📄 Licencia
+
+Este proyecto se distribuye con fines académicos y educativos.
