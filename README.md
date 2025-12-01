@@ -11,7 +11,7 @@ El proyecto presenta una plataforma educativa de bajo costo para realizar simula
 - **Simulación HIL en Tiempo Real:** Ejecución paralela de modelos matemáticos (Planta) y algoritmos de control (PID/PI) en núcleos independientes (CPU1 y CPU2).
 - **Diseño Basado en Modelos (MBD):** Integración completa con MATLAB/Simulink y generación automática de código.
 - **Casos de Estudio Implementados:**
-  - 📍 **Posición Motor DC:** Lazo abierto y Lazo cerrado (PID).
+  - 📍 **Posición Motor DC:** Lazo abierto y Lazo cerrado (PID y sin control).
   - 🏎️ **Velocidad Motor DC:** Control PID ante perturbaciones.
   - 🛢️ **Sistema de Presión:** Control de transferencia de crudo (PI) basado en analogía hidráulico-eléctrica.
 - **Validación Experimental:** Comparación de resultados teóricos vs. señales reales adquiridas vía osciloscopio.
