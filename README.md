@@ -11,20 +11,24 @@ El proyecto presenta una plataforma educativa de bajo costo para realizar simula
 - **Simulación HIL en Tiempo Real:** Ejecución paralela de modelos matemáticos (Planta) y algoritmos de control (PID/PI) en núcleos independientes (CPU1 y CPU2).
 - **Diseño Basado en Modelos (MBD):** Integración completa con MATLAB/Simulink y generación automática de código.
 - **Casos de Estudio Implementados:**
-  - 📍 **Posición Motor DC:** Lazo abierto y Lazo cerrado (PID y sin control).
+  - 📍 **Posición Motor DC:** Lazo abierto y Lazo cerrado (PID).
   - 🏎️ **Velocidad Motor DC:** Control PID ante perturbaciones.
   - 🛢️ **Sistema de Presión:** Control de transferencia de crudo (PI) basado en analogía hidráulico-eléctrica.
 - **Validación Experimental:** Comparación de resultados teóricos vs. señales reales adquiridas vía osciloscopio.
 
 ## 📂 Estructura del Repositorio
 
-El repositorio está organizado de la siguiente manera según los casos de estudio:
+El repositorio está organizado por carpetas según el sistema dinámico a simular. En cada una encontrarás tanto el script de configuración como los modelos de Simulink necesarios:
 
-* `📁 Scripts_Configuracion`: Contiene los archivos `.mlx` (Live Scripts de MATLAB) necesarios para cargar los parámetros físicos y de control al *Workspace* antes de la simulación.
-    * `Position.mlx`: Parámetros para el control de posición.
-    * `Velocity.mlx`: Parámetros para el control de velocidad.
-    * `Configuracion_del_modelo_de_presion.mlx`: Parámetros para el sistema de crudo.
-* `📁 Modelos_Simulink`: Contiene los archivos `.slx` para cada núcleo (CPU1_Control y CPU2_Planta).
+* `📁 Position`: Control de posición de Motor DC.
+    * `Position.mlx`: Script de configuración de parámetros.
+    * Archivos `.slx` correspondientes (Control y Planta).
+* `📁 Velocity`: Control de velocidad de Motor DC.
+    * `Velocity.mlx`: Script de configuración de parámetros.
+    * Archivos `.slx` correspondientes (Control y Planta).
+* `📁 Pressure`: Sistema de control de presión (Transferencia de crudo).
+    * `Configuracion_del_modelo_de_presion.mlx`: Script de configuración de parámetros.
+    * Archivos `.slx` correspondientes (Control y Planta).
 * `📁 Docs`: Documentación adicional o guía de laboratorio.
 
 ## 🛠️ Requisitos de Hardware y Software
@@ -52,13 +56,13 @@ Para que el sistema HIL funcione, se debe cerrar el lazo de control físicamente
 
 ## 🧭 Flujo de Ejecución Recomendado
 
-Para replicar los experimentos, sigue estos pasos:
+Para replicar un experimento, dirígete a la carpeta del caso de estudio deseado (ej. `Position`) y sigue estos pasos:
 
 1.  **Carga de Parámetros:**
-    Abre y ejecuta el script correspondiente en MATLAB (por ejemplo, `Position.mlx`). Esto cargará en el *Workspace* las variables `Kp`, `Ki`, `Kd`, `num`, `den`, y los tiempos de muestreo.
+    Abre y ejecuta el script `.mlx` que se encuentra dentro de la carpeta (ej. `Position.mlx`). Esto cargará en el *Workspace* las variables necesarias (`Kp`, `Ki`, `Kd`, `num`, `den`, tiempos de muestreo, etc.).
 
 2.  **Configuración de Modelos:**
-    Abre los archivos de Simulink correspondientes al caso de estudio (ej. `Caso2_Posicion_CPU1.slx` y `Caso2_Posicion_CPU2.slx`).
+    Abre los archivos de Simulink `.slx` que se encuentran en la misma carpeta (uno para la CPU1 y otro para la CPU2).
 
 3.  **Compilación y Carga:**
     * Asegúrate de que la tarjeta esté conectada vía USB.
@@ -67,7 +71,7 @@ Para replicar los experimentos, sigue estos pasos:
 
 4.  **Visualización:**
     * Utiliza las herramientas de *External Mode* de Simulink para ver las señales en tiempo real.
-    * Alternativamente, conecta un osciloscopio a los pines **DAC (30 y 70)** para ver la respuesta física del sistema.
+    * Alternativamente, conecta un osciloscopio a los pines **DAC (30 y 70)** para verificar la respuesta física.
 
 ## 🧠 Tecnologías Utilizadas
 
